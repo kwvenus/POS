@@ -149,10 +149,18 @@ function loadAllDetailFromList(groupedItem){
     return detailItemListWithPromotion
 }
 
+function calculateTotal(detailItemListWithPromotion){
+    let total = 0
+
+    detailItemListWithPromotion.map(item => total += item.Subtotal)
+
+    return total
+}
 
 module.exports = {
     itemWithWeight,
     loadItemsDetail,
     loadPromotionsDetail,
-    loadAllDetailFromList
+    loadAllDetailFromList,
+    calculateTotal
 };
