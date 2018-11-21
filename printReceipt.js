@@ -59,7 +59,43 @@ function itemWithWeight(item){
     return itemWithWeight
 }
 
+/*function groupItem(itemListWithWeight){
 
+    let groupedItem = []
+    let filterItem = []
+
+
+
+        console.log(itemListWithWeight.length)
+
+    for (let outerIteration = 0; outerIteration < itemListWithWeight.length; outerIteration++){
+        let itemBarcode
+        let itemValue = 0
+        if (!filterItem.includes(itemListWithWeight[outerIteration].barcode)){
+                    itemBarcode = itemListWithWeight[outerIteration].barcode
+                    console.log(itemBarcode)
+                    itemValue = itemListWithWeight[outerIteration].weight
+                    console.log(itemValue)
+                    for (let innerIteration = outerIteration; innerIteration < itemListWithWeight.length; innerIteration++){
+                        if (itemListWithWeight[innerIteration].barcode == itemBarcode)
+                            itemValue += 1
+                        else if (itemListWithWeight.length-1 == innerIteration){
+                            groupedItem.push({"barcode": itemBarcode, "weight": itemValue})
+                            filterItem.push(itemListWithWeight[innerIteration].barcode)
+                        }
+                    }
+        }
+    }
+    console.log(groupedItem)
+    console.log(filterItem)
+
+
+
+
+    itemListWithWeight.map(item => groupedItem.map(countedItem => countedItem.barcode == item.barcode ? countedItem.weight += 1 : groupedItem.push(item)))
+
+    return itemListWithWeight
+}*/
 
 
 function loadItemsDetail(groupedItem){
@@ -77,6 +113,8 @@ function loadPromotionsDetail(detailItem){
     let promotionType, promotionBarcode
     let itemList = loadAllItems()
     let detailItemBarcode
+    let calculateSaving = 0
+    detailItem.Saving = calculateSaving
 
     itemList.map(item => item.name == detailItem.Name ? detailItemBarcode = item.barcode:false)
 
@@ -87,7 +125,7 @@ function loadPromotionsDetail(detailItem){
         if (promotionType == 'BUY_TWO_GET_ONE_FREE'){
             for (let mapBarcode = 0; mapBarcode < promotionBarcode.length ; mapBarcode++){
                 if (detailItemBarcode == promotionBarcode[mapBarcode]){
-                     let calculateSaving = ((detailItem.Quantity%2)* detailItem.unitPrice)
+                     calculateSaving = ((detailItem.Quantity%2)* detailItem.unitPrice)
                      detailItem.Subtotal = detailItem.Subtotal - calculateSaving
                      detailItem.Saving = calculateSaving
                 }
@@ -97,9 +135,25 @@ function loadPromotionsDetail(detailItem){
     return detailItem
 }
 
+function loadAllDetailFromList(groupedItem){
+    let detailItemList = []
+    let detailItemListWithPromotion = []
+
+    for (let item = 0; item < groupedItem.length; item++){
+        detailItemList.push(loadItemsDetail(groupedItem[item]))
+    }
+
+    detailItemList.forEach(function(item){
+        detailItemListWithPromotion.push(loadPromotionsDetail(item))
+    });
+    return detailItemListWithPromotion
+}
+
+
 module.exports = {
     itemWithWeight,
     loadItemsDetail,
-    loadPromotionsDetail
-
+    loadPromotionsDetail,
+    loadAllDetailFromList,
+    calculateTotal
 };
