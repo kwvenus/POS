@@ -154,6 +154,5 @@ module.exports = {
     itemWithWeight,
     loadItemsDetail,
     loadPromotionsDetail,
-    loadAllDetailFromList,
-    calculateTotal
+    loadAllDetailFromList
 };

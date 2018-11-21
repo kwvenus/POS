@@ -50,6 +50,8 @@ const detailItemListWithPromotion = [
     {"Name": 'Noodles', "Quantity": 3, "unitPrice": 4.50, "Subtotal": 9.00, "Saving": 4.50}
 ];
 
+
+
 it ('Given item list, when itemWithWeight, then return itemWithWeight[{"barcode": String, "weight": int}]', function(){
     expect(printReceipt.itemWithWeight(item)).toEqual(itemListWithWeight);
 });
@@ -71,3 +73,4 @@ it ('Given one of the object in detailItemList, when loadPromotionsDetail, then 
 it ('Given groupedItem, when loadAllDetailFromList, then return detailItemListWithPromotion[detailItemWithPromotion{"Name": String, "Quantity": int, "unitPrice": double, "Subtotal": double, "Saving": double}]', function (){
     expect(printReceipt.loadAllDetailFromList(groupedItem)).toEqual(detailItemListWithPromotion)
 });
+
