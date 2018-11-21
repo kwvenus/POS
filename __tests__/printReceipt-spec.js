@@ -51,6 +51,7 @@ const detailItemListWithPromotion = [
 ];
 
 const total = 51.00
+const saving = 7.50
 
 it ('Given item list, when itemWithWeight, then return itemWithWeight[{"barcode": String, "weight": int}]', function(){
     expect(printReceipt.itemWithWeight(item)).toEqual(itemListWithWeight);
@@ -74,6 +75,10 @@ it ('Given groupedItem, when loadAllDetailFromList, then return detailItemListWi
     expect(printReceipt.loadAllDetailFromList(groupedItem)).toEqual(detailItemListWithPromotion)
 });
 
-it ('Given detailItemList, when calculateTotal, then return total:int', function(){
+it ('Given detailItemListWithPromotion, when calculateTotal, then return total:int', function(){
     expect(printReceipt.calculateTotal(detailItemListWithPromotion)).toEqual(total)
+});
+
+it ('Given detailItemListWithPromotion, when calculateSaving, then return saving:int', function(){
+    expect(printReceipt.calculateSaving(detailItemListWithPromotion)).toEqual(saving)
 });

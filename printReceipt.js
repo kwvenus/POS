@@ -157,10 +157,19 @@ function calculateTotal(detailItemListWithPromotion){
     return total
 }
 
+function calculateSaving(detailItemListWithPromotion){
+    let saving = 0
+
+    detailItemListWithPromotion.map(item => saving += item.Saving)
+
+    return saving
+}
+
 module.exports = {
     itemWithWeight,
     loadItemsDetail,
     loadPromotionsDetail,
     loadAllDetailFromList,
-    calculateTotal
+    calculateTotal,
+    calculateSaving
 };
