@@ -59,43 +59,21 @@ function itemWithWeight(item){
     return itemWithWeight
 }
 
-/*function groupItem(itemListWithWeight){
+function groupItem(itemListWithWeight){
 
-    let groupedItem = []
-    let filterItem = []
-
-
-
-        console.log(itemListWithWeight.length)
-
-    for (let outerIteration = 0; outerIteration < itemListWithWeight.length; outerIteration++){
-        let itemBarcode
-        let itemValue = 0
-        if (!filterItem.includes(itemListWithWeight[outerIteration].barcode)){
-                    itemBarcode = itemListWithWeight[outerIteration].barcode
-                    console.log(itemBarcode)
-                    itemValue = itemListWithWeight[outerIteration].weight
-                    console.log(itemValue)
-                    for (let innerIteration = outerIteration; innerIteration < itemListWithWeight.length; innerIteration++){
-                        if (itemListWithWeight[innerIteration].barcode == itemBarcode)
-                            itemValue += 1
-                        else if (itemListWithWeight.length-1 == innerIteration){
-                            groupedItem.push({"barcode": itemBarcode, "weight": itemValue})
-                            filterItem.push(itemListWithWeight[innerIteration].barcode)
-                        }
-                    }
+    let groupedItem = [];
+    let weight;
+    itemListWithWeight.forEach(itemfirstloop => {
+        if (!groupedItem.find(element => element.barcode === itemfirstloop.barcode)) {
+            weight = 0;
+            itemListWithWeight.filter(item => item.barcode === itemfirstloop.barcode).forEach(itemsecondloop => {
+                weight += itemsecondloop.weight;
+            });
+            groupedItem.push({ barcode: itemfirstloop.barcode, weight: weight });
         }
-    }
-    console.log(groupedItem)
-    console.log(filterItem)
-
-
-
-
-    itemListWithWeight.map(item => groupedItem.map(countedItem => countedItem.barcode == item.barcode ? countedItem.weight += 1 : groupedItem.push(item)))
-
-    return itemListWithWeight
-}*/
+    });
+    return groupedItem;
+}
 
 
 function loadItemsDetail(groupedItem){
@@ -165,11 +143,33 @@ function calculateSaving(detailItemListWithPromotion){
     return saving
 }
 
+function prepareReceiptFormat(detailItemListWithPromotion){
+    let receipt = "*** <store earning no money>Receipt ***\n"
+    const allItems = loadAllItems()
+
+    for (let item = 0; item < detailItemListWithPromotion.length; item++){
+        for (let itemList = 0; itemList < allItems.length; itemList++){
+            if (detailItemListWithPromotion[item].Name == allItems[itemList].name){
+                if (detailItemListWithPromotion[item].Quantity > 1 && allItems[itemList].unit != "kg"){
+                    detailItemListWithPromotion[item].unit = allItems[itemList].unit+'s'
+                } else {
+                    detailItemListWithPromotion[item].unit = allItems[itemList].unit
+                }
+            }
+        }
+    }
+
+    detailItemListWithPromotion.map(item => receipt += "Name: " + item.Name + ", Quantity: " + item.Quantity + " " + item.unit + ", Unit price: " + item.unitPrice.toFixed(2) + " (yuan), Subtotal: " + item.Subtotal.toFixed(2) + " (yuan)\n")
+    return receipt
+}
+
 module.exports = {
     itemWithWeight,
     loadItemsDetail,
     loadPromotionsDetail,
     loadAllDetailFromList,
     calculateTotal,
-    calculateSaving
+    calculateSaving,
+    prepareReceiptFormat,
+    groupItem
 };

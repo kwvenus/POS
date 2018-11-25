@@ -50,6 +50,16 @@ const detailItemListWithPromotion = [
     {"Name": 'Noodles', "Quantity": 3, "unitPrice": 4.50, "Subtotal": 9.00, "Saving": 4.50}
 ];
 
+const receipt = "*** <store earning no money>Receipt ***\n" +
+                "Name: Sprite, Quantity: 5 bottles, Unit price: 3.00 (yuan), Subtotal: 12.00 (yuan)\n" +
+                "Name: Litchi, Quantity: 2 kg, Unit price: 15.00 (yuan), Subtotal: 30.00 (yuan)\n" +
+                "Name: Noodles, Quantity: 3 bags, Unit price: 4.50 (yuan), Subtotal: 9.00 (yuan)\n"
+                /*"----------------------\n" +
+                "Total: 21.00 (yuan)\n" +
+                "Saving: 4.00 (yuan)\n" +
+                "**********************\n"*/
+
+
 const total = 51.00
 const saving = 7.50
 
@@ -57,11 +67,11 @@ it ('Given item list, when itemWithWeight, then return itemWithWeight[{"barcode"
     expect(printReceipt.itemWithWeight(item)).toEqual(itemListWithWeight);
 });
 
-/*
+
 it ('Given itemListWithWeight, when groupItem, then return groupedItem[{"barcode": String, "quantity": int}]', function(){
     expect(printReceipt.groupItem(itemListWithWeight)).toEqual(groupedItem);
 });
-*/
+
 
 it ('Given one of the object in groupedItem, when loadItemsDetail, then return detailItemWithPromotion{"Name": String, "Quantity": int, "unitPrice": double, "Subtotal": double}', function(){
     expect(printReceipt.loadItemsDetail(groupedItem[0])).toEqual(detailItem)
@@ -81,4 +91,8 @@ it ('Given detailItemListWithPromotion, when calculateTotal, then return total:i
 
 it ('Given detailItemListWithPromotion, when calculateSaving, then return saving:int', function(){
     expect(printReceipt.calculateSaving(detailItemListWithPromotion)).toEqual(saving)
+});
+
+it ('Given detailItemListWithPromotion, when prepareReceiptFormat, then return receipt:String', function(){
+    expect(printReceipt.prepareReceiptFormat(detailItemListWithPromotion)).toEqual(receipt)
 });
